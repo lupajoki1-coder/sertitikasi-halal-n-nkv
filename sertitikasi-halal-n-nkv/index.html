@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sertifikasi PSA-H, NKV dan Sertifikasi Halal
+</title>
+    
+    <!-- Libraries -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0fdfa',
+                            100: '#ccfbf1',
+                            500: '#14b8a6',
+                            600: '#0d9488',
+                            800: '#115e59',
+                            900: '#134e4a',
+                        }
+                    },
+                    boxShadow: {
+                        'layer': '0 1px 2px 0 rgba(0, 0, 0, 0.05), 0 1px 3px 1px rgba(0, 0, 0, 0.03)',
+                        'float': '0 10px 40px -10px rgba(0,0,0,0.15)',
+                        'glow': '0 0 20px rgba(20, 184, 166, 0.3)'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { background-color: #f8fafc; }
+        
+        /* 3D/Depth Effects */
+        .card-3d {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+        }
+        .card-3d:hover {
+            transform: translateY(-8px) scale(1.01);
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.15);
+            z-index: 10;
+        }
+        
+        /* Toggle Switch Animation */
+        .toggle-checkbox:checked {
+            right: 0;
+            border-color: #0d9488;
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: #0d9488;
+        }
+        
+        /* Custom Scrollbar */
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        /* Tooltip */
+        .tooltip-wrap { position: relative; display: inline-block; }
+        .tooltip-content {
+            visibility: hidden; opacity: 0;
+            position: absolute; bottom: 125%; left: 50%;
+            transform: translateX(-50%) translateY(5px);
+            transition: all 0.2s;
+            width: max-content; max-width: 250px;
+            z-index: 50;
+        }
+        .tooltip-wrap:hover .tooltip-content {
+            visibility: visible; opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+        
+        /* Table Styles within Cards */
+        .req-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            font-size: 0.75rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        .req-table th {
+            background-color: #f8fafc;
+            color: #334155;
+            font-weight: 700;
+            text-align: left;
+            padding: 8px 10px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .req-table td {
+            padding: 8px 10px;
+            color: #475569;
+            border-bottom: 1px solid #f1f5f9;
+            vertical-align: top;
+            line-height: 1.4;
+        }
+        .req-table tr:last-child td { border-bottom: none; }
+        .req-table tr:nth-child(even) { background-color: #fcfcfc; }
+
+        [x-cloak] { display: none !important; }
+    </style>
+</head>
+<body x-data="app()" class="antialiased pb-48 selection:bg-brand-100 selection:text-brand-900">
+
+    <!-- Navbar Sticky Glass -->
+    <header class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-lg border-b border-slate-200 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo Area -->
+                <div class="flex items-center gap-3 group cursor-pointer" @click="window.scrollTo(0,0)">
+                    <div class="w-10 h-10 bg-gradient-to-br from-brand-500 to-brand-800 rounded-xl shadow-lg flex items-center justify-center text-white text-lg transform group-hover:rotate-12 transition-transform">
+                        <i class="fas fa-certificate"></i>
+                    </div>
+                    <div>
+                        <h1 class="font-bold text-xl text-slate-800 leading-tight">Kashafa MentorPLUS</h1>
+                        <p class="text-[10px] font-bold text-brand-600 uppercase tracking-widest">Proposal System 2.0</p>
+                    </div>
+                </div>
+
+                <!-- Desktop Nav -->
+                <nav class="hidden md:flex items-center gap-8">
+                    <a href="#packages" class="text-sm font-semibold text-slate-600 hover:text-brand-600 transition relative group">
+                        Pilihan Paket
+                        <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-brand-500 transition-all group-hover:w-full"></span>
+                    </a>
+                    <a href="#addons" class="text-sm font-semibold text-slate-600 hover:text-brand-600 transition relative group">
+                        Add-ons
+                        <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-brand-500 transition-all group-hover:w-full"></span>
+                    </a>
+                    
+                    <!-- Search Bar in Nav -->
+                    <div class="relative group">
+                        <input type="text" x-model="searchQuery" placeholder="Cari layanan..." 
+                            class="pl-9 pr-4 py-2 bg-slate-100 border-none rounded-full text-sm focus:ring-2 focus:ring-brand-500 w-48 transition-all focus:w-64">
+                        <i class="fas fa-search absolute left-3 top-2.5 text-slate-400 group-focus-within:text-brand-500"></i>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section with Control Panel -->
+    <section class="pt-32 pb-12 px-4 sm:px-6 relative overflow-hidden bg-slate-50">
+        <!-- Background Elements -->
+        <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-100/50 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+        <div class="absolute bottom-0 left-0 w-[400px] h-[400px] bg-blue-100/50 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
+
+        <div class="max-w-5xl mx-auto text-center relative z-10">
+            <span class="inline-block py-1 px-3 rounded-full bg-brand-50 border border-brand-200 text-brand-700 text-xs font-bold tracking-wider uppercase mb-6 shadow-sm animate-bounce">
+                🚀 Solusi Sertifikasi Terintegrasi
+            </span>
+            <h1 class="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6 tracking-tight leading-tight">
+                Pilih Jalur <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 to-blue-600">Kesuksesan Bisnis</span> Anda
+            </h1>
+            <p class="max-w-2xl mx-auto text-lg text-slate-600 mb-10">
+                Visualisasi interaktif untuk menentukan paket pendampingan NIB, NKV, PSAH, dan Halal yang presisi sesuai kebutuhan usaha Anda.
+            </p>
+
+            <!-- Advanced Control Panel -->
+            <div class="bg-white p-2 rounded-2xl shadow-float max-w-3xl mx-auto flex flex-col md:flex-row items-center gap-4 border border-slate-100">
+                
+                <!-- Segmented Control (Mode Switcher) -->
+                <div class="bg-slate-100 p-1.5 rounded-xl flex w-full md:w-auto flex-shrink-0">
+                    <button @click="setMode('basic')" 
+                        class="px-6 py-3 rounded-lg text-sm font-bold transition-all duration-300 flex items-center gap-2 flex-1 justify-center relative overflow-hidden"
+                        :class="mode === 'basic' ? 'bg-white text-brand-700 shadow-sm' : 'text-slate-500 hover:text-slate-700'">
+                        <i class="fas fa-file-contract"></i> 
+                        <span>Paket Dasar (PD)</span>
+                        <div x-show="mode === 'basic'" class="absolute bottom-0 left-0 w-full h-1 bg-brand-500"></div>
+                    </button>
+                    <button @click="setMode('integrated')" 
+                        class="px-6 py-3 rounded-lg text-sm font-bold transition-all duration-300 flex items-center gap-2 flex-1 justify-center relative overflow-hidden"
+                        :class="mode === 'integrated' ? 'bg-white text-brand-700 shadow-sm' : 'text-slate-500 hover:text-slate-700'">
+                        <i class="fas fa-layer-group"></i> 
+                        <span>Integrasi (+Halal)</span>
+                        <div x-show="mode === 'integrated'" class="absolute bottom-0 left-0 w-full h-1 bg-brand-500"></div>
+                    </button>
+                </div>
+
+                <div class="h-8 w-px bg-slate-200 hidden md:block"></div>
+
+                <!-- Budget Slider -->
+                <div class="w-full px-4 py-2">
+                    <div class="flex justify-between text-xs font-semibold text-slate-500 mb-2">
+                        <span>Budget Maksimal</span>
+                        <span class="text-brand-700" x-text="formatCurrency(budgetFilter)"></span>
+                    </div>
+                    <input type="range" x-model="budgetFilter" min="5000000" max="70000000" step="1000000" 
+                        class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-brand-600 hover:accent-brand-500 transition-all">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Packages Grid -->
+    <section id="packages" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20 relative z-20">
+        <!-- Section Title with Tooltip -->
+        <div class="flex items-center gap-2 mb-8">
+            <h2 class="text-2xl font-bold text-slate-800">Katalog Paket</h2>
+            <div class="tooltip-wrap cursor-help">
+                <i class="fas fa-info-circle text-slate-400"></i>
+                <div class="tooltip-content bg-slate-800 text-white text-xs p-2 rounded shadow-lg">
+                    Paket menyesuaikan mode yang Anda pilih di atas.
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8">
+            <template x-for="tier in filteredPackages" :key="tier.id">
+                <div class="card-3d bg-white rounded-2xl flex flex-col border border-slate-200 overflow-hidden relative h-full"
+                     :class="{'ring-2 ring-brand-500 shadow-glow': selectedTier?.id === tier.id}"
+                     x-data="{ activeTab: 'scope' }">
+                    
+                    <!-- Cinematic Header -->
+                    <div class="h-24 relative overflow-hidden p-6 flex items-start justify-between">
+                        <div class="absolute inset-0 bg-gradient-to-br opacity-90" :class="tier.gradient"></div>
+                        <!-- Pattern Overlay -->
+                        <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+                        
+                        <div class="relative z-10 text-white">
+                            <span class="text-[10px] font-bold uppercase tracking-wider border border-white/30 px-2 py-0.5 rounded-full backdrop-blur-sm" x-text="tier.code"></span>
+                        </div>
+                        <div class="relative z-10 w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white border border-white/30 shadow-lg">
+                            <i :class="tier.icon"></i>
+                        </div>
+                    </div>
+
+                    <div class="p-6 flex flex-col flex-grow -mt-4 bg-white rounded-t-2xl relative z-10">
+                        <h3 class="text-2xl font-extrabold text-slate-800" x-text="tier.name"></h3>
+                        <p class="text-xs font-semibold text-brand-600 mb-4" x-text="tier.subtitle"></p>
+
+                        <!-- Price Tag -->
+                        <div class="mb-4 p-4 bg-slate-50 rounded-xl border border-slate-100 shadow-inner">
+                            <p class="text-[10px] text-slate-500 uppercase font-bold">Investasi</p>
+                            <div class="text-xl font-bold text-slate-800 tracking-tight" x-text="formatRange(tier.priceMin, tier.priceMax)"></div>
+                            <p class="text-[10px] text-slate-400 mt-1 italic" x-text="'Timeline: ' + tier.timeline"></p>
+                        </div>
+
+                        <!-- Tab Navigation for Card Content -->
+                        <div class="flex border-b border-slate-200 mb-3">
+                            <button @click="activeTab = 'scope'" 
+                                class="flex-1 py-2 text-xs font-bold border-b-2 transition-colors duration-200"
+                                :class="activeTab === 'scope' ? 'border-brand-500 text-brand-600' : 'border-transparent text-slate-400 hover:text-slate-600'">
+                                Scope Layanan
+                            </button>
+                            <button @click="activeTab = 'syarat'" 
+                                class="flex-1 py-2 text-xs font-bold border-b-2 transition-colors duration-200"
+                                :class="activeTab === 'syarat' ? 'border-brand-500 text-brand-600' : 'border-transparent text-slate-400 hover:text-slate-600'">
+                                Syarat & Ketentuan
+                            </button>
+                        </div>
+
+                        <!-- Card Content Container -->
+                        <div class="flex-grow overflow-y-auto custom-scrollbar h-64 pr-1">
+                            
+                            <!-- Tab: Scope Layanan -->
+                            <div x-show="activeTab === 'scope'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 transform translate-x-2" x-transition:enter-end="opacity-100 transform translate-x-0">
+                                <ul class="space-y-2 text-[11px] text-slate-600 leading-relaxed">
+                                    <template x-for="feat in tier.features" :key="feat">
+                                        <li class="flex items-start gap-2">
+                                            <i class="fas fa-check-circle text-brand-500 mt-0.5 shrink-0 text-[10px]"></i>
+                                            <span x-text="feat"></span>
+                                        </li>
+                                    </template>
+                                </ul>
+                                <!-- Exclusions -->
+                                <div class="pt-3 mt-3 border-t border-dashed border-slate-200">
+                                    <span class="font-bold text-rose-500 text-[10px] block mb-1">Tidak Termasuk:</span>
+                                    <ul class="space-y-1 text-[10px] text-slate-500">
+                                        <template x-for="exc in tier.exclusions" :key="exc">
+                                            <li class="flex items-start gap-1">
+                                                <i class="fas fa-times text-rose-400 mt-0.5"></i>
+                                                <span x-text="exc"></span>
+                                            </li>
+                                        </template>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- Tab: Syarat & Ketentuan (The Table) -->
+                            <div x-show="activeTab === 'syarat'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 transform -translate-x-2" x-transition:enter-end="opacity-100 transform translate-x-0">
+                                <div class="bg-amber-50 border border-amber-100 rounded-lg p-2 mb-3">
+                                    <p class="text-[10px] text-amber-700 leading-snug">
+                                        <i class="fas fa-info-circle mr-1"></i>
+                                        Pastikan Anda memenuhi kriteria berikut sebelum memilih paket ini.
+                                    </p>
+                                </div>
+                                <table class="req-table w-full">
+                                    <thead>
+                                        <tr>
+                                            <th class="w-1/3">Kategori</th>
+                                            <th>Detail Ketentuan</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <template x-for="req in tier.requirements" :key="req.category">
+                                            <tr>
+                                                <td class="font-semibold text-slate-700 text-[10px]" x-text="req.category"></td>
+                                                <td class="text-[10px]" x-text="req.detail"></td>
+                                            </tr>
+                                        </template>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Action Button -->
+                    <div class="p-4 bg-slate-50 border-t border-slate-200">
+                        <button @click="selectTier(tier)" 
+                            class="w-full py-3 rounded-xl font-bold text-sm transition-all duration-300 transform active:scale-95 flex items-center justify-center gap-2 shadow-sm"
+                            :class="selectedTier?.id === tier.id ? 'bg-brand-600 text-white shadow-brand-500/50' : 'bg-white text-slate-600 border border-slate-200 hover:border-brand-500 hover:text-brand-600'">
+                            <span x-text="selectedTier?.id === tier.id ? 'Paket Terpilih' : 'Pilih Paket'"></span>
+                            <i x-show="selectedTier?.id === tier.id" class="fas fa-check"></i>
+                        </button>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </section>
+
+    <!-- Optional Services (Add-ons) with Toggle Switches -->
+    <section id="addons" class="max-w-5xl mx-auto px-4 sm:px-6 mb-32">
+        <div class="bg-white rounded-3xl shadow-layer border border-slate-200 p-8">
+            <div class="text-center mb-10">
+                <span class="text-brand-600 font-bold text-xs uppercase tracking-widest">Kustomisasi</span>
+                <h3 class="text-3xl font-bold text-slate-800 mt-2">Layanan Optional (Add-ons)</h3>
+                <p class="text-sm text-slate-500 mt-2">Aktifkan fitur tambahan yang Anda butuhkan dengan tombol di bawah.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <template x-for="opt in optionalServices" :key="opt.id">
+                    <div class="flex items-center justify-between p-4 rounded-xl border transition-colors duration-300"
+                         :class="isOptionalSelected(opt) ? 'border-brand-500 bg-brand-50/50' : 'border-slate-200 bg-white hover:border-slate-300'">
+                        
+                        <div class="flex-1 pr-4">
+                            <h4 class="font-bold text-slate-800 text-sm" x-text="opt.name"></h4>
+                            <p class="text-[10px] text-slate-500 mt-1 line-clamp-2" x-text="opt.desc"></p>
+                            <p class="text-xs font-bold text-brand-700 mt-2" x-text="formatCurrency(opt.priceVal)"></p>
+                        </div>
+
+                        <!-- Toggle Switch -->
+                        <div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in">
+                            <input type="checkbox" :name="'toggle-'+opt.id" :id="'toggle-'+opt.id" 
+                                   class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer transition-all duration-300 top-0 left-0 shadow-sm"
+                                   :checked="isOptionalSelected(opt)"
+                                   @change="toggleOptional(opt)"/>
+                            <label :for="'toggle-'+opt.id" 
+                                   class="toggle-label block overflow-hidden h-6 rounded-full bg-slate-200 cursor-pointer transition-colors duration-300"></label>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </section>
+
+    <!-- Floating Cinema Bar -->
+    <div x-show="selectedTier || selectedOptionals.length > 0" 
+         x-transition:enter="transition ease-out duration-500"
+         x-transition:enter-start="translate-y-full opacity-0"
+         x-transition:enter-end="translate-y-0 opacity-100"
+         x-transition:leave="transition ease-in duration-300"
+         x-transition:leave-start="translate-y-0 opacity-100"
+         x-transition:leave-end="translate-y-full opacity-0"
+         class="fixed bottom-0 left-0 w-full z-40 px-4 pb-4">
+        
+        <div class="max-w-4xl mx-auto bg-slate-900/90 backdrop-blur-xl text-white rounded-2xl shadow-float p-4 md:p-6 border border-slate-700">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                
+                <!-- Info Summary -->
+                <div class="flex-1 w-full text-center md:text-left">
+                    <p class="text-xs text-slate-400 uppercase font-bold tracking-wider mb-1">Total Estimasi</p>
+                    <div class="text-3xl font-extrabold font-mono text-brand-400 tracking-tight" x-text="calculateTotal()"></div>
+                    <div class="text-xs text-slate-300 mt-1 flex items-center justify-center md:justify-start gap-2">
+                        <span x-show="selectedTier" class="bg-slate-800 px-2 py-0.5 rounded" x-text="selectedTier?.name"></span>
+                        <span x-show="selectedOptionals.length > 0" class="bg-slate-800 px-2 py-0.5 rounded" x-text="`+ ${selectedOptionals.length} Add-ons`"></span>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex gap-3 w-full md:w-auto">
+                    <button @click="downloadPDF" class="flex-1 md:flex-none px-6 py-3 rounded-xl bg-slate-700 hover:bg-slate-600 text-white font-bold transition flex items-center justify-center gap-2 group">
+                        <i class="fas fa-file-pdf text-red-400 group-hover:scale-110 transition-transform"></i>
+                        <span>Proposal PDF</span>
+                    </button>
+                    
+                    <button @click="openConsultationModal" class="flex-1 md:flex-none px-6 py-3 rounded-xl bg-gradient-to-r from-brand-600 to-brand-500 hover:from-brand-500 hover:to-brand-400 text-white font-bold shadow-lg shadow-brand-500/30 transition transform hover:-translate-y-1 flex items-center justify-center gap-2">
+                        <i class="fab fa-whatsapp text-lg"></i>
+                        <span>Konsultasi</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Konsultasi -->
+    <div x-show="isModalOpen" class="fixed inset-0 z-[60] overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true" x-cloak>
+        <div class="flex items-center justify-center min-h-screen px-4 text-center sm:block sm:p-0">
+            <div x-show="isModalOpen" x-transition.opacity class="fixed inset-0 bg-slate-900 bg-opacity-75 transition-opacity" @click="isModalOpen = false"></div>
+
+            <div x-show="isModalOpen" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100" class="inline-block align-bottom bg-white rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg w-full">
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <div class="sm:flex sm:items-start">
+                        <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-brand-100 sm:mx-0 sm:h-10 sm:w-10">
+                            <i class="far fa-calendar-alt text-brand-600"></i>
+                        </div>
+                        <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
+                            <h3 class="text-lg leading-6 font-bold text-slate-900" id="modal-title">Jadwalkan Konsultasi</h3>
+                            <div class="mt-4 space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 mb-1">Pilih Waktu</label>
+                                    <input x-ref="datepicker" type="text" class="w-full border-slate-300 rounded-lg shadow-sm focus:ring-brand-500 focus:border-brand-500 text-sm p-2.5 bg-slate-50" placeholder="Pilih tanggal...">
+                                </div>
+                                <p class="text-xs text-slate-500">Kami akan mengonfirmasi jadwal ini melalui WhatsApp.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-slate-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse gap-2">
+                    <button type="button" @click="confirmConsultation" class="w-full inline-flex justify-center rounded-lg border border-transparent shadow-sm px-4 py-2 bg-brand-600 text-base font-medium text-white hover:bg-brand-700 focus:outline-none sm:w-auto sm:text-sm">
+                        Kirim ke WhatsApp
+                    </button>
+                    <button type="button" @click="isModalOpen = false" class="mt-3 w-full inline-flex justify-center rounded-lg border border-slate-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-slate-700 hover:bg-slate-50 focus:outline-none sm:mt-0 sm:w-auto sm:text-sm">
+                        Batal
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 mt-20 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="text-center md:text-left">
+                    <p class="text-sm font-semibold text-slate-800">©2025 visualisasi oleh Kashafa-MentorPLUS</p>
+                    <a href="https://kashafa-mentorplus.my.id/" target="_blank" class="text-xs text-brand-600 hover:underline">layanan lainnya di https://kashafa-mentorplus.my.id/</a>
+                </div>
+                <div class="flex gap-4">
+                    <a href="mailto:kashafa.suksesbersama@gmail.com" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-brand-50 hover:text-brand-600 transition">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                    <a href="https://wa.me/6282142180001" target="_blank" class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-brand-50 hover:text-brand-600 transition">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Hidden PDF Template -->
+    <div id="pdf-template" class="hidden bg-white p-12 max-w-[800px] text-slate-800 font-sans">
+        <!-- Content injected dynamically via JS -->
+    </div>
+
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('app', () => ({
+                mode: 'integrated', // 'basic' | 'integrated'
+                selectedTier: null,
+                selectedOptionals: [],
+                searchQuery: '',
+                budgetFilter: 70000000,
+                isModalOpen: false,
+                consultationDate: '',
+
+                // Data Structure with Verbatim Text & Requirements Table
+                packagesData: {
+                    basic: [
+                        { 
+                            id: 'silver_basic', 
+                            initial: 'TS', 
+                            code: 'PD-TS', 
+                            name: 'Tier Silver', 
+                            subtitle: '"Mandiri"', 
+                            gradient: 'from-slate-400 to-slate-600', 
+                            icon: 'fa-user-gear', 
+                            priceMin: 5000000, 
+                            priceMax: 6000000, 
+                            benefit: 'Hemat Biaya & Mandiri',
+                            timeline: '90-150 hari kerja (bangunan dan fasilitas sudah sesuai)',
+                            features: [
+                                'Konsultasi awal 2x (online)',
+                                'Assessment mandiri kelayakan fasilitas produksi (checklist dasar)',
+                                'Template dokumen wajib NKV (Format 1-4 Permentan 11/2020)',
+                                'Briefing persiapan audit (1 sesi)',
+                                'Pendampingan saat audit lapangan (1 orang konsultan)',
+                                'Follow-up hasil audit',
+                                'Pengajuan registrasi PSAH ke Kementan',
+                                'Monitoring status permohonan',
+                                'Koordinasi hingga nomor registrasi terbit',
+                                'NIB OSS RBA (2 KBLI) - NKV (1 lokasi) + Registrasi (NKV+PSAH)'
+                            ], 
+                            requirements: [
+                                { category: 'Target', detail: 'UMKM kecil, peternak lebah individu, pemula' },
+                                { category: 'Fasilitas', detail: 'Fasilitas produksi minimal 90% sesuai standar' },
+                                { category: 'Komitmen', detail: 'Siap investasi perbaikan mandiri jika ada temuan audit' },
+                                { category: 'SDM', detail: 'Ada SDM internal pengurusan ke dinas' }
+                            ],
+                            exclusions: [
+                                'Biaya uji laboratorium',
+                                'Renovasi fasilitas',
+                                'Sertifikasi Halal (add-on)'
+                            ]
+                        },
+                        { 
+                            id: 'gold_basic', 
+                            initial: 'TG', 
+                            code: 'PD-TG', 
+                            name: 'Tier Gold', 
+                            subtitle: '"Essential Compliance"', 
+                            gradient: 'from-amber-400 to-yellow-600', 
+                            icon: 'fa-medal', 
+                            priceMin: 9000000, 
+                            priceMax: 12000000, 
+                            benefit: 'Dokumen Custom & Koordinasi Dinas',
+                            timeline: '60-90 hari kerja (bangunan fasilitas sesuai)',
+                            features: [
+                                'Gap analysis persyaratan NKV vs kondisi existing',
+                                'Penyusunan dokumen wajib NKV (Format 1-4 Permentan 11/2020) - custom',
+                                'Pengurusan surat rekomendasi Dinas Kab/Kota',
+                                'Koordinasi dengan Dinas Peternakan Provinsi',
+                                'Briefing persiapan audit (1 sesi)',
+                                'Pendampingan saat audit lapangan (1 orang konsultan)',
+                                'Follow-up hasil audit',
+                                'Pengajuan registrasi PSAH ke Kementan',
+                                'Monitoring status permohonan',
+                                'Koordinasi hingga nomor registrasi terbit',
+                                'Panduan bisnis madu 5 pilar',
+                                'NIB OSS RBA (2 KBLI) - NKV (1 lokasi)'
+                            ], 
+                            requirements: [
+                                { category: 'Target', detail: 'UMKM menengah (butuh bantuan dokumen custom)' },
+                                { category: 'Fasilitas', detail: 'Fasilitas produksi minimal 70% sesuai standar' },
+                                { category: 'Komitmen', detail: 'Siap investasi perbaikan mandiri jika ada temuan audit' }
+                            ],
+                            exclusions: [
+                                'Biaya uji laboratorium',
+                                'Renovasi fasilitas',
+                                'Sertifikasi Halal (add-on)'
+                            ]
+                        }
+                    ],
+                    integrated: [
+                        { 
+                            id: 'silver_int', 
+                            initial: 'TS', 
+                            code: 'PI-TS', 
+                            name: 'Tier Silver', 
+                            subtitle: '"Mandiri + Halal"', 
+                            gradient: 'from-teal-400 to-emerald-600', 
+                            icon: 'fa-check-double', 
+                            priceMin: 7000000, 
+                            priceMax: 9000000, 
+                            benefit: 'Hemat Paket Komplit',
+                            timeline: '90-150 hari kerja (NKV), Halal 6 bulan',
+                            features: [
+                                'Semua layanan Tier Silver Basic (NKV/PSAH)',
+                                'Registrasi si halal',
+                                'Dokumen halal',
+                                'Pendampingan saat audit lapangan (1 orang konsultan) - Halal & NKV'
+                            ], 
+                            requirements: [
+                                { category: 'Target', detail: 'UMKM kecil, peternak lebah individu, pemula' },
+                                { category: 'Fasilitas', detail: 'Fasilitas produksi minimal 90% sesuai standar' },
+                                { category: 'Komitmen', detail: 'Siap investasi perbaikan mandiri' },
+                                { category: 'SDM', detail: 'Ada SDM internal' }
+                            ],
+                            exclusions: [
+                                'Biaya uji laboratorium',
+                                'Renovasi fasilitas',
+                                'Biaya sidang fatwa (jika reguler)'
+                            ]
+                        },
+                        { 
+                            id: 'gold_int', 
+                            initial: 'TG', 
+                            code: 'PI-TG', 
+                            name: 'Tier Gold', 
+                            subtitle: '"Essential + Halal"', 
+                            gradient: 'from-orange-400 to-amber-600', 
+                            icon: 'fa-star', 
+                            priceMin: 9500000, 
+                            priceMax: 11000000, 
+                            benefit: 'Efisiensi Waktu & Anti Ribet',
+                            timeline: '60-90 hari kerja (NKV), Halal 6 bulan',
+                            features: [
+                                'Semua layanan Tier Gold Basic (Gap Analysis, Dokumen Custom, dll)',
+                                'Registrasi si halal',
+                                'Dokumen halal',
+                                'Koordinasi lintas instansi (Dinas, Kemenag, BPJPH)'
+                            ], 
+                            requirements: [
+                                { category: 'Target', detail: 'UMKM menengah (butuh bantuan dokumen custom)' },
+                                { category: 'Fasilitas', detail: 'Fasilitas produksi minimal 70% sesuai standar' },
+                                { category: 'Komitmen', detail: 'Siap investasi perbaikan mandiri' }
+                            ],
+                            exclusions: [
+                                'Biaya uji laboratorium',
+                                'Renovasi fasilitas'
+                            ]
+                        },
+                        { 
+                            id: 'platinum', 
+                            initial: 'TP', 
+                            code: 'PI-TP', 
+                            name: 'Tier Platinum', 
+                            subtitle: '"Premium Tanpa PIC"', 
+                            gradient: 'from-blue-500 to-indigo-700', 
+                            icon: 'fa-crown', 
+                            priceMin: 20000000, 
+                            priceMax: 22000000, 
+                            benefit: 'Garansi Terbit & Supervisi',
+                            timeline: '60 hari (NKV), Halal max 4 bulan',
+                            features: [
+                                'NIB OSS RBA (Multi KBLI) + NKV (Max 3 site)',
+                                'PSAH + Izin Edar BPOM MD',
+                                'Sertifikasi Halal Reguler (Termasuk biaya)',
+                                'Guarantee: NKV 60 hari terbit, Halal max 4 bulan',
+                                'Supervisi pembenahan fasilitas dan infrastruktur',
+                                'Bantuan koordinasi & negosiasi Uji Lab',
+                                'Audit pra-inspeksi oleh konsultan bersertifikat (H-1)',
+                                'Action plan perbaikan fasilitas',
+                                'Rekomendasi vendor peralatan food grade',
+                                'Dokumentasi foto/video proses produksi (optional)',
+                                'Mock audit + coaching untuk tim internal',
+                                'Pengaturan uji lab (koordinasi dengan lab terakreditasi)',
+                                'Review hasil lab + rekomendasi perbaikan',
+                                'Pendampingan desain label dengan pencantuman NKV'
+                            ], 
+                            requirements: [
+                                { category: 'Target', detail: 'UMKM menengah, produsen madu branded, calon eksportir' },
+                                { category: 'Jaminan', detail: '100% money-back guarantee jika NKV tidak terbit (di luar force majeure)' },
+                                { category: 'Komitmen', detail: 'Komitmen pada jadwal ketat' }
+                            ],
+                            exclusions: [
+                                'Biaya material renovasi (kami hanya supervisi)',
+                                'Biaya tagihan lab'
+                            ]
+                        },
+                        { 
+                            id: 'emerald', 
+                            initial: 'TE', 
+                            code: 'PI-TE', 
+                            name: 'Tier Emerald', 
+                            subtitle: '"White Glove Turnkey"', 
+                            gradient: 'from-emerald-500 to-green-800', 
+                            icon: 'fa-gem', 
+                            priceMin: 50000000, 
+                            priceMax: 60000000, 
+                            benefit: 'VIP Service Terima Beres',
+                            timeline: 'Fast Track (SLA 4 jam response)',
+                            features: [
+                                'All Platinum Scope + Dedicated account manager (1 orang penuh selama project)',
+                                'Konsultasi Unlimited (Senior Consultant)',
+                                'Mock Audit + Coaching Tim Internal',
+                                'Desain Label & Spanduk Ekspor',
+                                'Dashboard real time (tracking)',
+                                'Weekly progress report',
+                                'SLA response time: 4 jam untuk urgent case',
+                                'Pengadaan peralatan food grade (negosiasi vendor)',
+                                'Commissioning + validasi fasilitas',
+                                'Sertifikasi HACCP/ISO 22000/SNI (Opsional)',
+                                'Konsultasi regulasi pasar ekspor target (Timur Tengah/Eropa/Asia)',
+                                'Sistem traceability untuk madu',
+                                'QR code system untuk NKV + sertifikasi',
+                                'Template website compliance page',
+                                'Surveilans NKV (pendampingan 2x dalam 1 tahun)'
+                            ], 
+                            requirements: [
+                                { category: 'Target', detail: 'Industri skala besar, grup usaha, investor startup agritech' }
+                            ],
+                            exclusions: [
+                                'Biaya fisik renovasi (Supervisi Included)'
+                            ]
+                        }
+                    ]
+                },
+
+                // Optional Services with Initials
+                optionalServices: [
+                    { id: 'opt1', initial: 'JPH', name: 'Jasa Penyelia Halal', desc: 'Penyelia bersertifikat sesuai regulasi', priceVal: 2000000 },
+                    { id: 'opt2', initial: 'VT', name: 'Visit Tambahan', desc: 'Kunjungan ekstra per hari/orang', priceVal: 2500000 },
+                    { id: 'opt3', initial: 'RA', name: 'Readiness Audit', desc: 'Simulasi audit & saran perbaikan (per hari)', priceVal: 3000000 },
+                    { id: 'opt4', initial: 'PT', name: 'PT Reguler', desc: 'Pendirian Badan Hukum + NPWP', priceVal: 6500000 },
+                    { id: 'opt5', initial: 'HKI', name: 'Hak Merek (HKI)', desc: 'Pendaftaran & perlindungan brand', priceVal: 2800000 },
+                    { id: 'opt6', initial: 'DC', name: 'Dokumen Custom', desc: 'Hardcopy + Digital Drive', priceVal: 2000000 }
+                ],
+
+                get filteredPackages() {
+                    const data = this.packagesData[this.mode];
+                    return data.filter(pkg => {
+                        const matchesBudget = pkg.priceMin <= this.budgetFilter;
+                        const matchesSearch = this.searchQuery === '' || 
+                                              pkg.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                                              pkg.features.some(f => f.toLowerCase().includes(this.searchQuery.toLowerCase()));
+                        return matchesBudget && matchesSearch;
+                    });
+                },
+
+                setMode(m) { this.mode = m; this.selectedTier = null; },
+                
+                selectTier(tier) {
+                    this.selectedTier = (this.selectedTier?.id === tier.id) ? null : tier;
+                },
+
+                isOptionalSelected(opt) {
+                    return this.selectedOptionals.some(o => o.id === opt.id);
+                },
+
+                toggleOptional(opt) {
+                    if (this.isOptionalSelected(opt)) {
+                        this.selectedOptionals = this.selectedOptionals.filter(o => o.id !== opt.id);
+                    } else {
+                        this.selectedOptionals.push(opt);
+                    }
+                },
+
+                formatCurrency(val) {
+                    return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(val);
+                },
+
+                formatRange(min, max) {
+                    const f = (n) => (n / 1000000).toLocaleString('id-ID', { maximumFractionDigits: 1 });
+                    return `Rp ${f(min)} - ${f(max)} Jt`;
+                },
+
+                calculateTotal() {
+                    let total = 0;
+                    if (this.selectedTier) total += this.selectedTier.priceMin;
+                    this.selectedOptionals.forEach(o => total += o.priceVal);
+                    return this.formatCurrency(total);
+                },
+
+                openConsultationModal() {
+                    this.isModalOpen = true;
+                    this.$nextTick(() => {
+                        flatpickr(this.$refs.datepicker, {
+                            enableTime: true,
+                            dateFormat: "Y-m-d H:i",
+                            minDate: "today",
+                            onChange: (selectedDates, dateStr) => {
+                                this.consultationDate = dateStr;
+                            }
+                        });
+                    });
+                },
+
+                confirmConsultation() {
+                    const tierName = this.selectedTier ? this.selectedTier.name : 'Belum pilih paket';
+                    const addons = this.selectedOptionals.map(o => o.name).join(', ') || '-';
+                    const time = this.consultationDate || 'Belum ditentukan';
+                    
+                    const msg = `Halo Admin Kashafa MentorPLUS,%0A%0ASaya ingin konsultasi mengenai:%0A- Paket: *${tierName}* (${this.mode === 'basic' ? 'Dasar' : 'Integrasi'})%0A- Add-ons: ${addons}%0A- Rencana Jadwal: ${time}%0A%0AMohon informasinya.`;
+                    
+                    window.open(`https://wa.me/6282142180001?text=${msg}`, '_blank');
+                    this.isModalOpen = false;
+                },
+
+                downloadPDF() {
+                    if (!this.selectedTier) { alert('Silakan pilih paket utama terlebih dahulu.'); return; }
+
+                    const tier = this.selectedTier;
+                    const { jsPDF } = window.jspdf;
+                    const el = document.getElementById('pdf-template');
+                    
+                    // Generate Filename logic: [PD/PI]_[Tier]_[Addons].pdf
+                    let filename = this.mode === 'basic' ? 'PD' : 'PI';
+                    filename += `_${tier.initial}`;
+                    if (this.selectedOptionals.length > 0) {
+                        const addonInitials = this.selectedOptionals.map(o => o.initial).join('-');
+                        filename += `_${addonInitials}`;
+                    }
+                    filename += '.pdf';
+
+                    // Populate PDF HTML
+                    el.innerHTML = `
+                        <div style="border: 2px solid #0d9488; padding: 30px; border-radius: 10px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #e2e8f0; padding-bottom: 20px;">
+                                <h1 style="color: #0f766e; font-size: 28px; margin: 0;">Proposal Penawaran</h1>
+                                <div style="text-align: right;">
+                                    <p style="font-weight: bold; margin: 0;">Kashafa MentorPLUS</p>
+                                    <p style="font-size: 12px; margin: 0; color: #64748b;">${new Date().toLocaleDateString('id-ID')}</p>
+                                </div>
+                            </div>
+
+                            <div style="margin-top: 30px; background: #f0fdfa; padding: 20px; border-radius: 8px;">
+                                <h2 style="margin: 0; color: #115e59;">${tier.name} <span style="font-size: 16px; font-weight: normal; color: #0d9488;">(${tier.subtitle})</span></h2>
+                                <p style="margin: 5px 0 0 0; color: #475569;">Mode: ${this.mode === 'basic' ? 'Paket Dasar (NKV Only)' : 'Paket Integrasi (NKV + Halal)'}</p>
+                                <h3 style="margin-top: 15px; font-size: 24px; color: #0f766e;">${this.formatRange(tier.priceMin, tier.priceMax)}</h3>
+                                <p style="font-size: 12px; color: #64748b; margin-top: 5px;"><strong>Timeline Estimasi:</strong> ${tier.timeline}</p>
+                            </div>
+
+                            <div style="margin-top: 30px;">
+                                <h4 style="border-bottom: 1px solid #cbd5e1; padding-bottom: 5px;">Rincian Layanan:</h4>
+                                <ul style="padding-left: 20px; line-height: 1.6; font-size: 14px;">
+                                    ${tier.features.map(f => `<li>${f}</li>`).join('')}
+                                </ul>
+                            </div>
+
+                             <div style="margin-top: 30px;">
+                                <h4 style="border-bottom: 1px solid #cbd5e1; padding-bottom: 5px;">Syarat & Ketentuan:</h4>
+                                <table style="width: 100%; border-collapse: collapse; font-size: 14px; margin-top: 10px;">
+                                    <thead>
+                                        <tr style="background-color: #f1f5f9;">
+                                            <th style="padding: 8px; text-align: left; border: 1px solid #e2e8f0;">Kategori</th>
+                                            <th style="padding: 8px; text-align: left; border: 1px solid #e2e8f0;">Detail</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${tier.requirements.map(r => `
+                                            <tr>
+                                                <td style="padding: 8px; border: 1px solid #e2e8f0; color: #475569; font-weight: bold;">${r.category}</td>
+                                                <td style="padding: 8px; border: 1px solid #e2e8f0; color: #64748b;">${r.detail}</td>
+                                            </tr>
+                                        `).join('')}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                             <div style="margin-top: 20px;">
+                                <h4 style="border-bottom: 1px solid #cbd5e1; padding-bottom: 5px; color: #b91c1c;">Tidak Termasuk (Exclusions):</h4>
+                                <ul style="padding-left: 20px; line-height: 1.6; font-size: 14px; color: #7f1d1d;">
+                                    ${tier.exclusions.map(e => `<li>${e}</li>`).join('')}
+                                </ul>
+                            </div>
+
+                            ${this.selectedOptionals.length > 0 ? `
+                            <div style="margin-top: 20px;">
+                                <h4 style="border-bottom: 1px solid #cbd5e1; padding-bottom: 5px;">Add-ons Terpilih:</h4>
+                                <ul style="padding-left: 20px; line-height: 1.6; font-size: 14px;">
+                                    ${this.selectedOptionals.map(o => `<li><b>${o.name}</b> (${this.formatCurrency(o.priceVal)})</li>`).join('')}
+                                </ul>
+                            </div>
+                            ` : ''}
+
+                            <div style="margin-top: 40px; text-align: center; font-size: 12px; color: #94a3b8; border-top: 1px solid #e2e8f0; padding-top: 10px;">
+                                <p>©2025 visualisasi oleh Kashafa-MentorPLUS | https://kashafa-mentorplus.my.id/</p>
+                                <p>Email: kashafa.suksesbersama@gmail.com | WA: 082142180001</p>
+                            </div>
+                        </div>
+                    `;
+
+                    el.classList.remove('hidden');
+                    html2canvas(el, { scale: 2 }).then(canvas => {
+                        const imgData = canvas.toDataURL('image/png');
+                        const pdf = new jsPDF('p', 'mm', 'a4');
+                        const width = pdf.internal.pageSize.getWidth();
+                        const height = (canvas.height * width) / canvas.width;
+                        pdf.addImage(imgData, 'PNG', 0, 0, width, height);
+                        pdf.save(filename);
+                        el.classList.add('hidden');
+                    });
+                }
+            }))
+        })
+    </script>
+</body>
+</html>
