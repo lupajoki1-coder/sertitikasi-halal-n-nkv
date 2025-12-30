@@ -280,6 +280,20 @@
                                         </li>
                                     </template>
                                 </ul>
+                                
+                                <!-- Scope Perizinan -->
+                                <div class="pt-3 mt-3 border-t border-slate-200">
+                                    <span class="font-bold text-slate-700 text-[10px] block mb-1">Scope Perizinan:</span>
+                                    <ul class="space-y-1 text-[10px] text-slate-500">
+                                        <template x-for="perm in tier.permits" :key="perm">
+                                            <li class="flex items-start gap-1">
+                                                <i class="fas fa-file-signature text-blue-400 mt-0.5"></i>
+                                                <span x-text="perm"></span>
+                                            </li>
+                                        </template>
+                                    </ul>
+                                </div>
+
                                 <!-- Exclusions -->
                                 <div class="pt-3 mt-3 border-t border-dashed border-slate-200">
                                     <span class="font-bold text-rose-500 text-[10px] block mb-1">Tidak Termasuk:</span>
@@ -364,7 +378,7 @@
                         <div class="flex-1 pr-4">
                             <h4 class="font-bold text-slate-800 text-sm" x-text="opt.name"></h4>
                             <p class="text-[10px] text-slate-500 mt-1 line-clamp-2" x-text="opt.desc"></p>
-                            <p class="text-xs font-bold text-brand-700 mt-2" x-text="formatCurrency(opt.priceVal)"></p>
+                            <p class="text-xs font-bold text-brand-700 mt-2" x-text="opt.priceDisplay"></p>
                         </div>
 
                         <!-- Toggle Switch -->
@@ -516,9 +530,13 @@
                                 'Follow-up hasil audit',
                                 'Pengajuan registrasi PSAH ke Kementan',
                                 'Monitoring status permohonan',
-                                'Koordinasi hingga nomor registrasi terbit',
-                                'NIB OSS RBA (2 KBLI) - NKV (1 lokasi) + Registrasi (NKV+PSAH)'
-                            ], 
+                                'Koordinasi hingga nomor registrasi terbit'
+                            ],
+                            permits: [
+                                'NIB OSS RBA (2 KBLI)',
+                                'NKV (1 lokasi)',
+                                'Registrasi (NKV+PSAH)'
+                            ],
                             requirements: [
                                 { category: 'Target', detail: 'UMKM kecil, peternak lebah individu, pemula' },
                                 { category: 'Fasilitas', detail: 'Fasilitas produksi minimal 90% sesuai standar' },
@@ -542,7 +560,7 @@
                             priceMin: 9000000, 
                             priceMax: 12000000, 
                             benefit: 'Dokumen Custom & Koordinasi Dinas',
-                            timeline: '60-90 hari kerja (bangunan fasilitas sesuai)',
+                            timeline: '60-90 hari kerja (bangunan fasilitas sesuai dan tidak ada kendala di pemerintah)',
                             features: [
                                 'Gap analysis persyaratan NKV vs kondisi existing',
                                 'Penyusunan dokumen wajib NKV (Format 1-4 Permentan 11/2020) - custom',
@@ -554,11 +572,15 @@
                                 'Pengajuan registrasi PSAH ke Kementan',
                                 'Monitoring status permohonan',
                                 'Koordinasi hingga nomor registrasi terbit',
-                                'Panduan bisnis madu 5 pilar',
-                                'NIB OSS RBA (2 KBLI) - NKV (1 lokasi)'
-                            ], 
+                                'Paduan bisnis madu 5 pilar'
+                            ],
+                            permits: [
+                                'NIB OSS RBA (2 KBLI)',
+                                'NKV (1 lokasi)',
+                                'Registrasi (NKV+PSAH)'
+                            ],
                             requirements: [
-                                { category: 'Target', detail: 'UMKM menengah (butuh bantuan dokumen custom)' },
+                                { category: 'Target', detail: 'UMKM kecil, peternak lebah individu, pemula' },
                                 { category: 'Fasilitas', detail: 'Fasilitas produksi minimal 70% sesuai standar' },
                                 { category: 'Komitmen', detail: 'Siap investasi perbaikan mandiri jika ada temuan audit' }
                             ],
@@ -581,23 +603,35 @@
                             priceMin: 7000000, 
                             priceMax: 9000000, 
                             benefit: 'Hemat Paket Komplit',
-                            timeline: '90-150 hari kerja (NKV), Halal 6 bulan',
+                            timeline: '90-150 hari kerja (bangunan dan fasilitas sudah sesuai), halal 6bl',
                             features: [
-                                'Semua layanan Tier Silver Basic (NKV/PSAH)',
+                                'Konsultasi awal 2x (online)',
+                                'Assessment mandiri kelayakan fasilitas produksi (checklist dasar)',
+                                'Template dokumen wajib NKV (Format 1-4 Permentan 11/2020)',
+                                'Briefing persiapan audit (1 sesi)',
+                                'Pendampingan saat audit lapangan (1 orang konsultan)',
+                                'Follow-up hasil audit',
+                                'Pengajuan registrasi PSAH ke Kementan',
+                                'Monitoring status permohonan',
+                                'Koordinasi hingga nomor registrasi terbit',
                                 'Registrasi si halal',
-                                'Dokumen halal',
-                                'Pendampingan saat audit lapangan (1 orang konsultan) - Halal & NKV'
-                            ], 
+                                'Dokumen halal'
+                            ],
+                            permits: [
+                                'NIB OSS RBA (2 KBLI)',
+                                'NKV (1 lokasi)',
+                                'Registrasi (NKV+PSAH)',
+                                'Halal UKM'
+                            ],
                             requirements: [
                                 { category: 'Target', detail: 'UMKM kecil, peternak lebah individu, pemula' },
                                 { category: 'Fasilitas', detail: 'Fasilitas produksi minimal 90% sesuai standar' },
-                                { category: 'Komitmen', detail: 'Siap investasi perbaikan mandiri' },
-                                { category: 'SDM', detail: 'Ada SDM internal' }
+                                { category: 'Komitmen', detail: 'Siap investasi perbaikan mandiri jika ada temuan audit' },
+                                { category: 'SDM', detail: 'Ada SDM internal pengurusan ke dinas' }
                             ],
                             exclusions: [
                                 'Biaya uji laboratorium',
-                                'Renovasi fasilitas',
-                                'Biaya sidang fatwa (jika reguler)'
+                                'Renovasi fasilitas'
                             ]
                         },
                         { 
@@ -611,21 +645,38 @@
                             priceMin: 9500000, 
                             priceMax: 11000000, 
                             benefit: 'Efisiensi Waktu & Anti Ribet',
-                            timeline: '60-90 hari kerja (NKV), Halal 6 bulan',
+                            timeline: '60-90 hari kerja (bangunan fasilitas sesuai dan tidak ada kendala di pemerintah), halal 6bl',
                             features: [
-                                'Semua layanan Tier Gold Basic (Gap Analysis, Dokumen Custom, dll)',
+                                'Konsultasi awal via zoom/call',
+                                'Readiness audit (visit 1x)',
+                                'Gap analysis persyaratan NKV vs kondisi existing',
+                                'Penyusunan 8 dokumen wajib NKV (Format 1-4 Permentan 11/2020)',
+                                'Pengurusan surat rekomendasi Dinas Kab/Kota',
+                                'Koordinasi dengan Dinas Peternakan Provinsi',
+                                'Briefing persiapan audit (1 sesi)',
+                                'Pendampingan saat audit lapangan (1 orang konsultan)',
+                                'Follow-up hasil audit',
+                                'Pengajuan registrasi PSAH ke Kementan',
+                                'Monitoring status permohonan',
+                                'Koordinasi hingga nomor registrasi terbit',
                                 'Registrasi si halal',
-                                'Dokumen halal',
-                                'Koordinasi lintas instansi (Dinas, Kemenag, BPJPH)'
-                            ], 
+                                'Dokumen halal'
+                            ],
+                            permits: [
+                                'NIB OSS RBA (2 KBLI)',
+                                'NKV (1 lokasi)',
+                                'Registrasi (NKV+PSAH)',
+                                'halal UKM'
+                            ],
                             requirements: [
-                                { category: 'Target', detail: 'UMKM menengah (butuh bantuan dokumen custom)' },
+                                { category: 'Target', detail: 'UMKM kecil, peternak lebah individu, pemula' },
                                 { category: 'Fasilitas', detail: 'Fasilitas produksi minimal 70% sesuai standar' },
-                                { category: 'Komitmen', detail: 'Siap investasi perbaikan mandiri' }
+                                { category: 'Komitmen', detail: 'Siap investasi perbaikan mandiri jika ada temuan audit' }
                             ],
                             exclusions: [
                                 'Biaya uji laboratorium',
-                                'Renovasi fasilitas'
+                                'Renovasi fasilitas',
+                                'Sertifikasi Halal (add-on)'
                             ]
                         },
                         { 
@@ -633,37 +684,45 @@
                             initial: 'TP', 
                             code: 'PI-TP', 
                             name: 'Tier Platinum', 
-                            subtitle: '"Premium Tanpa PIC"', 
+                            subtitle: '"Premium Tanpa Perlu PIC Regulasi"', 
                             gradient: 'from-blue-500 to-indigo-700', 
                             icon: 'fa-crown', 
                             priceMin: 20000000, 
                             priceMax: 22000000, 
                             benefit: 'Garansi Terbit & Supervisi',
-                            timeline: '60 hari (NKV), Halal max 4 bulan',
+                            timeline: 'NKV 60 hari (kecuali keterlambatan pemerintah), Halal max 4bl (kecuali keterlambatan pemerintah)',
                             features: [
-                                'NIB OSS RBA (Multi KBLI) + NKV (Max 3 site)',
-                                'PSAH + Izin Edar BPOM MD',
-                                'Sertifikasi Halal Reguler (Termasuk biaya)',
-                                'Guarantee: NKV 60 hari terbit, Halal max 4 bulan',
-                                'Supervisi pembenahan fasilitas dan infrastruktur',
-                                'Bantuan koordinasi & negosiasi Uji Lab',
+                                'Scope Layanan (All Gold +)',
+                                'Konsultasi unlimited (via senior consutant)',
                                 'Audit pra-inspeksi oleh konsultan bersertifikat (H-1)',
                                 'Action plan perbaikan fasilitas',
                                 'Rekomendasi vendor peralatan food grade',
+                                'Supervisi pembenahan fasilitas dan infrastruktur',
                                 'Dokumentasi foto/video proses produksi (optional)',
                                 'Mock audit + coaching untuk tim internal',
-                                'Pengaturan uji lab (koordinasi dengan lab terakreditasi)',
-                                'Review hasil lab + rekomendasi perbaikan',
-                                'Pendampingan desain label dengan pencantuman NKV'
-                            ], 
+                                'Pengaturan uji lab (kami koordinasi dengan lab terakreditasi)',
+                                'Review hasil lab + rekomendasi perbaikan (jika diperlukan)',
+                                'Registrasi PSAH Kementan',
+                                'Pendampingan desain label dengan pencantuman NKV',
+                                'Konsultasi regulasi (basic)',
+                                'Penyelia halal',
+                                'Dokumen 5 kriteria custom + print file',
+                                'Spanduk'
+                            ],
+                            permits: [
+                                'NIB OSS RBA (2-3 KBLI)',
+                                'NKV (1-2 lokasi)',
+                                'PSAH + Izin Edar BPOM MD (1-3 produk)',
+                                'Sertifikasi Halal reguler'
+                            ],
                             requirements: [
                                 { category: 'Target', detail: 'UMKM menengah, produsen madu branded, calon eksportir' },
-                                { category: 'Jaminan', detail: '100% money-back guarantee jika NKV tidak terbit (di luar force majeure)' },
-                                { category: 'Komitmen', detail: 'Komitmen pada jadwal ketat' }
+                                { category: 'Guarantee', detail: 'Jika NKV tidak terbit dalam 60 hari (kecuali karena keterlambatan dari pemerintah), gratis perpanjangan' },
+                                { category: 'Termasuk', detail: 'Biaya renovasi (kami hanya supervisi), Biaya uji lab (kami bantu koordinasi + negosiasi harga), Biaya sertifikasi halal BPJPH (PNPB + LPH)' }
                             ],
                             exclusions: [
-                                'Biaya material renovasi (kami hanya supervisi)',
-                                'Biaya tagihan lab'
+                                'Biaya renovasi (kami hanya supervisi)',
+                                'Biaya uji lab'
                             ]
                         },
                         { 
@@ -671,35 +730,49 @@
                             initial: 'TE', 
                             code: 'PI-TE', 
                             name: 'Tier Emerald', 
-                            subtitle: '"White Glove Turnkey"', 
+                            subtitle: '"White Glove Turnkey Solution"', 
                             gradient: 'from-emerald-500 to-green-800', 
                             icon: 'fa-gem', 
                             priceMin: 50000000, 
                             priceMax: 60000000, 
                             benefit: 'VIP Service Terima Beres',
-                            timeline: 'Fast Track (SLA 4 jam response)',
+                            timeline: '30-45 hari kerja (express)',
                             features: [
-                                'All Platinum Scope + Dedicated account manager (1 orang penuh selama project)',
-                                'Konsultasi Unlimited (Senior Consultant)',
-                                'Mock Audit + Coaching Tim Internal',
-                                'Desain Label & Spanduk Ekspor',
-                                'Dashboard real time (tracking)',
-                                'Weekly progress report',
+                                'Scope Layanan (All Platinum +):',
+                                'Dedicated account manager (1 orang penuh selama project)',
+                                'Weekly progress report + dashboard tracking',
                                 'SLA response time: 4 jam untuk urgent case',
                                 'Pengadaan peralatan food grade (negosiasi vendor)',
                                 'Commissioning + validasi fasilitas',
-                                'Sertifikasi HACCP/ISO 22000/SNI (Opsional)',
+                                'Sertifikasi HACCP/ISO 22000/SNI',
                                 'Konsultasi regulasi pasar ekspor target (Timur Tengah/Eropa/Asia)',
                                 'Sistem traceability untuk madu',
                                 'QR code system untuk NKV + sertifikasi',
                                 'Template website compliance page',
-                                'Surveilans NKV (pendampingan 2x dalam 1 tahun)'
-                            ], 
+                                'Surveilans NKV (pendampingan 2x dalam 1 tahun)',
+                                'Konsultasi unlimited via hotline',
+                                'Update regulasi quarterly briefing',
+                                'Free audit refresher menjelang surveilans'
+                            ],
+                            permits: [
+                                'NIB OSS RBA (Multi-KBLI)',
+                                'NKV (Max 3 site))',
+                                'PSAH + MD ВРОМ (5-10 produk)',
+                                'Sertifikasi Halal reguler',
+                                'HACCP/ISO 22000',
+                                'SNI (opsional)'
+                            ],
                             requirements: [
-                                { category: 'Target', detail: 'Industri skala besar, grup usaha, investor startup agritech' }
+                                { category: 'Target', detail: 'Industri skala besar, grup usaha, investor startup agritech' },
+                                { category: 'Guarantee', detail: '100% money-back guarantee jika NKV tidak terbit (di luar force majeure)' }
                             ],
                             exclusions: [
-                                'Biaya fisik renovasi (Supervisi Included)'
+                                'Biaya renovasi (kami hanya supervisi)',
+                                'Biaya uji lab',
+                                'NKV untuk multi-lokasi produksi (hingga 3 lokasi)',
+                                'Biaya sertifikasi lembaga (LPH, ISO, SNI)',
+                                'Registrasi PSAH + Izin Edar BPOM MD (untuk produk madu olahan)',
+                                'Koordinasi dengan Kementan + BPOM secara simultan'
                             ]
                         }
                     ]
@@ -707,12 +780,15 @@
 
                 // Optional Services with Initials
                 optionalServices: [
-                    { id: 'opt1', initial: 'JPH', name: 'Jasa Penyelia Halal', desc: 'Penyelia bersertifikat sesuai regulasi', priceVal: 2000000 },
-                    { id: 'opt2', initial: 'VT', name: 'Visit Tambahan', desc: 'Kunjungan ekstra per hari/orang', priceVal: 2500000 },
-                    { id: 'opt3', initial: 'RA', name: 'Readiness Audit', desc: 'Simulasi audit & saran perbaikan (per hari)', priceVal: 3000000 },
-                    { id: 'opt4', initial: 'PT', name: 'PT Reguler', desc: 'Pendirian Badan Hukum + NPWP', priceVal: 6500000 },
-                    { id: 'opt5', initial: 'HKI', name: 'Hak Merek (HKI)', desc: 'Pendaftaran & perlindungan brand', priceVal: 2800000 },
-                    { id: 'opt6', initial: 'DC', name: 'Dokumen Custom', desc: 'Hardcopy + Digital Drive', priceVal: 2000000 }
+                    { id: 'opt1', initial: 'JPH', name: 'Jasa penyelia halal', desc: 'Sesuai regulasi halal', priceDisplay: '2jt', priceVal: 2000000 },
+                    { id: 'opt2', initial: 'PH', name: 'Pelatihan halal', desc: 'negotiable (jumlah peserta & lokasi)', priceDisplay: 'Negotiable', priceVal: 0 },
+                    { id: 'opt3', initial: 'DC', name: 'Dokumen custom', desc: 'hard copy dan drive', priceDisplay: '>2jt', priceVal: 2000000 },
+                    { id: 'opt4', initial: 'ERP', name: 'ERP', desc: 'Sistem ERP', priceDisplay: 'negotable', priceVal: 0 },
+                    { id: 'opt5', initial: 'VT', name: 'Visit tambahan', desc: 'Kunjungan ekstra per hari/orang', priceDisplay: '2-3jt/hari', priceVal: 2500000 },
+                    { id: 'opt6', initial: 'RA', name: 'Readiness audit', desc: 'hasil audit dan saran perbaikan', priceDisplay: '3jt/ hari', priceVal: 3000000 },
+                    { id: 'opt7', initial: 'PTR', name: 'PT regulaer', desc: 'Pendirian Badan Hukum', priceDisplay: '6,5jt', priceVal: 6500000 },
+                    { id: 'opt8', initial: 'PTP', name: 'PT. perorangan + NPWP', desc: 'Pendirian Badan Hukum Perorangan', priceDisplay: '500rb', priceVal: 500000 },
+                    { id: 'opt9', initial: 'HM', name: 'Hak Merek', desc: 'Pendaftaran & perlindungan brand', priceDisplay: '2,8jt', priceVal: 2800000 }
                 ],
 
                 get filteredPackages() {
