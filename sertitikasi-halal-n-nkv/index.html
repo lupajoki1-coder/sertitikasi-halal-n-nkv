@@ -250,7 +250,11 @@
                         <div class="mb-4 p-4 bg-slate-50 rounded-xl border border-slate-100 shadow-inner">
                             <p class="text-[10px] text-slate-500 uppercase font-bold">Investasi</p>
                             <div class="text-xl font-bold text-slate-800 tracking-tight" x-text="formatRange(tier.priceMin, tier.priceMax)"></div>
-                            <p class="text-[10px] text-slate-400 mt-1 italic" x-text="'Timeline: ' + tier.timeline"></p>
+                            <!-- Timeline in Card -->
+                            <div class="mt-2 pt-2 border-t border-slate-200">
+                                <p class="text-[10px] text-slate-400 uppercase font-bold mb-0.5">Estimasi Waktu:</p>
+                                <p class="text-[10px] text-slate-600 font-medium leading-tight" x-text="tier.timeline"></p>
+                            </div>
                         </div>
 
                         <!-- Tab Navigation for Card Content -->
@@ -530,8 +534,9 @@
                                 'Follow-up hasil audit',
                                 'Pengajuan registrasi PSAH ke Kementan',
                                 'Monitoring status permohonan',
-                                'Koordinasi hingga nomor registrasi terbit'
-                            ],
+                                'Koordinasi hingga nomor registrasi terbit',
+                                'NIB OSS RBA (2 KBLI) - NKV (1 lokasi) + Registrasi (NKV+PSAH)'
+                            ], 
                             permits: [
                                 'NIB OSS RBA (2 KBLI)',
                                 'NKV (1 lokasi)',
@@ -572,7 +577,8 @@
                                 'Pengajuan registrasi PSAH ke Kementan',
                                 'Monitoring status permohonan',
                                 'Koordinasi hingga nomor registrasi terbit',
-                                'Paduan bisnis madu 5 pilar'
+                                'Paduan bisnis madu 5 pilar',
+                                'NIB OSS RBA (2 KBLI) - NKV (1 lokasi)'
                             ],
                             permits: [
                                 'NIB OSS RBA (2 KBLI)',
@@ -614,7 +620,7 @@
                                 'Pengajuan registrasi PSAH ke Kementan',
                                 'Monitoring status permohonan',
                                 'Koordinasi hingga nomor registrasi terbit',
-                                'Registrasi si halal',
+                                'Registrasi si halal (Self Declare)',
                                 'Dokumen halal'
                             ],
                             permits: [
@@ -631,7 +637,8 @@
                             ],
                             exclusions: [
                                 'Biaya uji laboratorium',
-                                'Renovasi fasilitas'
+                                'Renovasi fasilitas',
+                                'Biaya sidang fatwa (jika reguler)'
                             ]
                         },
                         { 
@@ -659,7 +666,7 @@
                                 'Pengajuan registrasi PSAH ke Kementan',
                                 'Monitoring status permohonan',
                                 'Koordinasi hingga nomor registrasi terbit',
-                                'Registrasi si halal',
+                                'Registrasi si halal (Self Declare)',
                                 'Dokumen halal'
                             ],
                             permits: [
