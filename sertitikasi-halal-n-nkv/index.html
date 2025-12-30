@@ -114,6 +114,20 @@
         .req-table tr:last-child td { border-bottom: none; }
         .req-table tr:nth-child(even) { background-color: #fcfcfc; }
 
+        /* Print/PDF Specific Styles */
+        #pdf-template {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: white;
+            width: 210mm; /* A4 width */
+            min-height: 297mm; /* A4 height */
+            padding: 20mm;
+            box-sizing: border-box;
+            color: #334155;
+            position: absolute;
+            top: -9999px;
+            left: -9999px;
+        }
+
         [x-cloak] { display: none !important; }
     </style>
 </head>
@@ -495,7 +509,7 @@
     </footer>
 
     <!-- Hidden PDF Template -->
-    <div id="pdf-template" class="hidden bg-white p-12 max-w-[800px] text-slate-800 font-sans">
+    <div id="pdf-template" class="hidden">
         <!-- Content injected dynamically via JS -->
     </div>
 
@@ -568,7 +582,7 @@
                             timeline: '60-90 hari kerja (bangunan fasilitas sesuai dan tidak ada kendala di pemerintah)',
                             features: [
                                 'Gap analysis persyaratan NKV versus kondisi existing',
-                                'Penyusunan dokumen wajib NKV (Format 1-4 Permentan 11/2020) - custom',
+                                'Penyusunan dokumen wajib NKV (Format 1-4 Permentan 11/2020) - kustom',
                                 'Pengurusan surat rekomendasi Dinas Kabupaten/Kota',
                                 'Koordinasi dengan Dinas Peternakan Provinsi',
                                 'Briefing persiapan audit (1 sesi)',
@@ -655,7 +669,7 @@
                             timeline: '60-90 hari kerja (bangunan fasilitas sesuai dan tidak ada kendala di pemerintah), halal 6 bulan',
                             features: [
                                 'Konsultasi awal via zoom/call',
-                                'Readiness audit (visit 1x (satu kali))',
+                                'Audit Kesiapan (Readiness audit) (visit 1x (satu kali))',
                                 'Gap analysis persyaratan NKV versus kondisi existing',
                                 'Penyusunan 8 dokumen wajib NKV (Format 1-4 Permentan 11/2020)',
                                 'Pengurusan surat rekomendasi Dinas Kabupaten/Kota',
@@ -884,91 +898,150 @@
                     }
                     filename += '.pdf';
 
-                    // Populate PDF HTML
+                    // Populate PDF HTML using a more robust template structure for full page representation
                     el.innerHTML = `
-                        <div style="border: 2px solid #0d9488; padding: 30px; border-radius: 10px;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #e2e8f0; padding-bottom: 20px;">
-                                <h1 style="color: #0f766e; font-size: 28px; margin: 0;">Proposal Penawaran</h1>
+                        <div style="font-family: 'Plus Jakarta Sans', sans-serif; color: #334155; width: 100%; box-sizing: border-box;">
+                            <!-- Header -->
+                            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #0f766e; padding-bottom: 20px; margin-bottom: 30px;">
+                                <div>
+                                    <h1 style="color: #0f766e; font-size: 28px; margin: 0; font-weight: 800;">Proposal Penawaran</h1>
+                                    <p style="font-size: 14px; margin: 5px 0 0 0; color: #64748b;">Sertifikasi PSA-H, NKV dan Sertifikasi Halal</p>
+                                </div>
                                 <div style="text-align: right;">
-                                    <p style="font-weight: bold; margin: 0;">Kashafa MentorPLUS</p>
-                                    <p style="font-size: 12px; margin: 0; color: #64748b;">${new Date().toLocaleDateString('id-ID')}</p>
+                                    <p style="font-weight: 800; margin: 0; font-size: 16px;">Kashafa MentorPLUS</p>
+                                    <p style="font-size: 12px; margin: 2px 0; color: #64748b;">${new Date().toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                                    <p style="font-size: 12px; color: #64748b;">No. Dok: PROP/${new Date().getFullYear()}/${Math.floor(Math.random() * 1000)}</p>
                                 </div>
                             </div>
 
-                            <div style="margin-top: 30px; background: #f0fdfa; padding: 20px; border-radius: 8px;">
-                                <h2 style="margin: 0; color: #115e59;">${tier.name} <span style="font-size: 16px; font-weight: normal; color: #0d9488;">(${tier.subtitle})</span></h2>
-                                <p style="margin: 5px 0 0 0; color: #475569;">Mode: ${this.mode === 'basic' ? 'Paket Dasar (NKV Saja)' : 'Paket Integrasi (NKV + Halal)'}</p>
-                                <h3 style="margin-top: 15px; font-size: 24px; color: #0f766e;">${this.formatRange(tier.priceMin, tier.priceMax)}</h3>
-                                <p style="font-size: 12px; color: #64748b; margin-top: 5px;"><strong>Estimasi Waktu:</strong> ${tier.timeline}</p>
+                            <!-- Package Summary Box -->
+                            <div style="background: #f0fdfa; padding: 25px; border-radius: 12px; border: 1px solid #ccfbf1; margin-bottom: 30px;">
+                                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                                    <div>
+                                        <h2 style="margin: 0; color: #115e59; font-size: 22px;">${tier.name} <span style="font-size: 16px; font-weight: normal; color: #0d9488;">(${tier.subtitle})</span></h2>
+                                        <p style="margin: 8px 0 0 0; color: #475569; font-size: 14px;"><strong>Mode Paket:</strong> ${this.mode === 'basic' ? 'Paket Dasar (NKV Saja)' : 'Paket Integrasi (NKV + Halal)'}</p>
+                                        <p style="margin: 4px 0 0 0; color: #475569; font-size: 14px;"><strong>Estimasi Waktu:</strong> ${tier.timeline}</p>
+                                    </div>
+                                    <div style="text-align: right;">
+                                        <p style="margin: 0; font-size: 12px; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px;">Investasi</p>
+                                        <h3 style="margin: 5px 0 0 0; font-size: 26px; color: #0f766e; font-weight: 800;">${this.formatRange(tier.priceMin, tier.priceMax)}</h3>
+                                    </div>
+                                </div>
                             </div>
 
-                            <div style="margin-top: 30px;">
-                                <h4 style="border-bottom: 1px solid #cbd5e1; padding-bottom: 5px;">Rincian Layanan:</h4>
-                                <ul style="padding-left: 20px; line-height: 1.6; font-size: 14px;">
-                                    ${tier.features.map(f => `<li>${f}</li>`).join('')}
-                                </ul>
+                            <!-- Details Grid -->
+                            <div style="display: flex; gap: 30px; margin-bottom: 30px;">
+                                <!-- Left Column: Scope & Exclusions -->
+                                <div style="flex: 1;">
+                                    <h4 style="border-bottom: 2px solid #cbd5e1; padding-bottom: 10px; margin-bottom: 15px; color: #334155; font-size: 16px; font-weight: 700;">Cakupan Layanan</h4>
+                                    <ul style="padding-left: 20px; margin: 0; line-height: 1.6; font-size: 13px; color: #475569;">
+                                        ${tier.features.map(f => `<li style="margin-bottom: 6px;">${f}</li>`).join('')}
+                                    </ul>
+
+                                    <h4 style="border-bottom: 2px solid #cbd5e1; padding-bottom: 10px; margin: 25px 0 15px 0; color: #b91c1c; font-size: 16px; font-weight: 700;">Pengecualian (Tidak Termasuk)</h4>
+                                    <ul style="padding-left: 20px; margin: 0; line-height: 1.6; font-size: 13px; color: #7f1d1d;">
+                                        ${tier.exclusions.map(e => `<li style="margin-bottom: 6px;">${e}</li>`).join('')}
+                                    </ul>
+                                </div>
+
+                                <!-- Right Column: Requirements & Terms -->
+                                <div style="flex: 1;">
+                                    <h4 style="border-bottom: 2px solid #cbd5e1; padding-bottom: 10px; margin-bottom: 15px; color: #334155; font-size: 16px; font-weight: 700;">Syarat & Ketentuan</h4>
+                                    <table style="width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 20px;">
+                                        <tbody>
+                                            ${tier.requirements.map(r => `
+                                                <tr style="border-bottom: 1px solid #e2e8f0;">
+                                                    <td style="padding: 10px 5px; color: #334155; font-weight: 700; width: 30%; vertical-align: top;">${r.category}</td>
+                                                    <td style="padding: 10px 5px; color: #64748b; vertical-align: top;">${r.detail}</td>
+                                                </tr>
+                                            `).join('')}
+                                        </tbody>
+                                    </table>
+
+                                    <!-- General Terms Box -->
+                                    <div style="background-color: #f8fafc; padding: 15px; border: 1px solid #e2e8f0; border-radius: 8px;">
+                                        <p style="font-size: 12px; font-weight: 800; color: #334155; margin: 0 0 8px 0;">Ketentuan Umum & Biaya:</p>
+                                        <ul style="padding-left: 15px; margin: 0; font-size: 11px; color: #64748b; line-height: 1.5;">
+                                            <li style="margin-bottom: 4px;">Tabel biaya pada proposal ini berlaku selama 15 (lima belas) hari sejak diterima.</li>
+                                            <li style="margin-bottom: 4px;">Proposal ini hanya terkait biaya jasa pendampingan.</li>
+                                            <li>Biaya tidak termasuk biaya terkait negara dan pihak ketiga lainnya (pajak/Penerimaan Negara Bukan Pajak, Pajak Penghasilan, notaris, laboratorium, dan lain-lain).</li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
 
-                             <div style="margin-top: 30px;">
-                                <h4 style="border-bottom: 1px solid #cbd5e1; padding-bottom: 5px;">Syarat & Ketentuan:</h4>
-                                <table style="width: 100%; border-collapse: collapse; font-size: 14px; margin-top: 10px;">
+                            <!-- Add-ons Section (Conditional) -->
+                            ${this.selectedOptionals.length > 0 ? `
+                            <div style="margin-bottom: 30px; page-break-inside: avoid;">
+                                <h4 style="border-bottom: 2px solid #cbd5e1; padding-bottom: 10px; margin-bottom: 15px; color: #334155; font-size: 16px; font-weight: 700;">Layanan Tambahan Terpilih</h4>
+                                <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
                                     <thead>
-                                        <tr style="background-color: #f1f5f9;">
-                                            <th style="padding: 8px; text-align: left; border: 1px solid #e2e8f0;">Kategori</th>
-                                            <th style="padding: 8px; text-align: left; border: 1px solid #e2e8f0;">Rincian</th>
+                                        <tr style="background: #f1f5f9; text-align: left;">
+                                            <th style="padding: 10px; border-bottom: 2px solid #e2e8f0; color: #334155;">Nama Layanan</th>
+                                            <th style="padding: 10px; border-bottom: 2px solid #e2e8f0; color: #334155;">Deskripsi</th>
+                                            <th style="padding: 10px; border-bottom: 2px solid #e2e8f0; color: #334155; text-align: right;">Biaya</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        ${tier.requirements.map(r => `
-                                            <tr>
-                                                <td style="padding: 8px; border: 1px solid #e2e8f0; color: #475569; font-weight: bold;">${r.category}</td>
-                                                <td style="padding: 8px; border: 1px solid #e2e8f0; color: #64748b;">${r.detail}</td>
+                                        ${this.selectedOptionals.map(o => `
+                                            <tr style="border-bottom: 1px solid #e2e8f0;">
+                                                <td style="padding: 10px; font-weight: 600; color: #334155;">${o.name}</td>
+                                                <td style="padding: 10px; color: #64748b;">${o.desc}</td>
+                                                <td style="padding: 10px; font-weight: 600; color: #0f766e; text-align: right;">${this.formatCurrency(o.priceVal)}</td>
                                             </tr>
                                         `).join('')}
                                     </tbody>
                                 </table>
-                                
-                                <!-- Added General Terms to PDF -->
-                                <div style="margin-top: 15px; background-color: #f8fafc; padding: 10px; border: 1px solid #e2e8f0; border-radius: 5px;">
-                                    <p style="font-size: 12px; font-weight: bold; color: #475569; margin-bottom: 5px;">Ketentuan Umum & Biaya:</p>
-                                    <ul style="padding-left: 15px; margin: 0; font-size: 11px; color: #64748b; line-height: 1.4;">
-                                        <li>Tabel biaya pada proposal ini berlaku selama 15 (lima belas) hari sejak diterima.</li>
-                                        <li>Proposal ini hanya terkait biaya jasa pendampingan.</li>
-                                        <li>Biaya tidak termasuk biaya terkait negara dan pihak ketiga lainnya (pajak/Penerimaan Negara Bukan Pajak, Pajak Penghasilan, notaris, laboratorium, dan lain-lain).</li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                             <div style="margin-top: 20px;">
-                                <h4 style="border-bottom: 1px solid #cbd5e1; padding-bottom: 5px; color: #b91c1c;">Tidak Termasuk (Pengecualian):</h4>
-                                <ul style="padding-left: 20px; line-height: 1.6; font-size: 14px; color: #7f1d1d;">
-                                    ${tier.exclusions.map(e => `<li>${e}</li>`).join('')}
-                                </ul>
-                            </div>
-
-                            ${this.selectedOptionals.length > 0 ? `
-                            <div style="margin-top: 20px;">
-                                <h4 style="border-bottom: 1px solid #cbd5e1; padding-bottom: 5px;">Layanan Tambahan Terpilih:</h4>
-                                <ul style="padding-left: 20px; line-height: 1.6; font-size: 14px;">
-                                    ${this.selectedOptionals.map(o => `<li><b>${o.name}</b> (${this.formatCurrency(o.priceVal)})</li>`).join('')}
-                                </ul>
                             </div>
                             ` : ''}
 
-                            <div style="margin-top: 40px; text-align: center; font-size: 12px; color: #94a3b8; border-top: 1px solid #e2e8f0; padding-top: 10px;">
-                                <p>©2025 visualisasi oleh Kashafa-MentorPLUS | https://kashafa-mentorplus.my.id/</p>
-                                <p>Email: kashafa.suksesbersama@gmail.com | WA: 082142180001</p>
+                            <!-- Footer -->
+                            <div style="margin-top: 40px; text-align: center; font-size: 11px; color: #94a3b8; border-top: 1px solid #e2e8f0; padding-top: 20px;">
+                                <p style="margin: 0 0 5px 0;">©2025 Visualisasi oleh Kashafa-MentorPLUS | https://kashafa-mentorplus.my.id/</p>
+                                <p style="margin: 0;">Email: kashafa.suksesbersama@gmail.com | WA: 082142180001</p>
                             </div>
                         </div>
                     `;
 
                     el.classList.remove('hidden');
-                    html2canvas(el, { scale: 2 }).then(canvas => {
+                    
+                    // Improved PDF Generation to prevent cut-offs
+                    html2canvas(el, { 
+                        scale: 2, // Higher quality
+                        useCORS: true,
+                        logging: false
+                    }).then(canvas => {
                         const imgData = canvas.toDataURL('image/png');
+                        
+                        // Calculate dimensions to fit A4
+                        const imgWidth = 210; // A4 width in mm
+                        const pageHeight = 297; // A4 height in mm
+                        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                        
                         const pdf = new jsPDF('p', 'mm', 'a4');
-                        const width = pdf.internal.pageSize.getWidth();
-                        const height = (canvas.height * width) / canvas.width;
-                        pdf.addImage(imgData, 'PNG', 0, 0, width, height);
+                        
+                        // Add image to PDF, handling multiple pages if necessary (though single page preferred for summaries)
+                        // For this proposal, we try to fit it on one page, but if it's too long, we can split.
+                        // Given the content, it usually fits on one A4 if styled correctly.
+                        
+                        if (imgHeight <= pageHeight) {
+                            pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+                        } else {
+                            // Basic multi-page support logic if needed in future
+                            let heightLeft = imgHeight;
+                            let position = 0;
+                            
+                            pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                            heightLeft -= pageHeight;
+                            
+                            while (heightLeft >= 0) {
+                                position = heightLeft - imgHeight;
+                                pdf.addPage();
+                                pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                                heightLeft -= pageHeight;
+                            }
+                        }
+                        
                         pdf.save(filename);
                         el.classList.add('hidden');
                     });
